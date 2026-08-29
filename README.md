@@ -1,53 +1,46 @@
-# Historical Weather Forecast Accuracy
+# Scheduled Backup Script
 
 ## Overview
 
-A Bash-based ETL proof-of-concept that collects daily weather data for Casablanca, Morocco, compares forecasted temperatures with actual temperatures, and reports historical forecasting accuracy.
+A Bash-based Linux backup automation project that automatically backs up files that have been modified within the past 24 hours.
 
 ## Project Objectives
 
-- Extract weather data using `curl` from wttr.in
-- Extract observed and forecasted temperatures
-- Transform the data into a tab-delimited format
-- Load daily results into log files
-- Calculate historical forecast accuracy
-- Classify forecast accuracy as excellent, good, fair, or poor
-- Calculate weekly minimum and maximum absolute forecasting errors
-- Schedule the weather collection process using `cron`
+- Create a Bash backup script.
+- Accept a target directory and destination directory as command-line arguments.
+- Identify files modified within the last 24 hours.
+- Archive and compress the updated files.
+- Create timestamped `.tar.gz` backup files.
+- Move backup files to the destination directory.
+- Schedule the backup script using `cron`.
 
 ## Project Structure
 
 | File | Description |
 |---|---|
-| `rx_poc.sh` | Downloads and extracts Casablanca weather data |
-| `rx_poc.log` | Stores daily weather observations and forecasts |
-| `fc_accuracy.sh` | Calculates forecast accuracy |
-| `historical_fc_accuracy.tsv` | Stores historical forecast accuracy |
-| `weekly_stats.sh` | Calculates weekly minimum and maximum errors |
-| `scratch.txt` | Temporary file used during weekly analysis |
+| `backup.sh` | Main Bash backup script |
+| `backup-permissions` | Shows executable permissions for `backup.sh` |
+| `backup-file-check` | Shows the generated backup file |
+| `backup-script-copy` | Shows that `backup.sh` was copied to `/usr/local/bin/` |
+| `crontab-schedule` | Shows the daily cron schedule |
 
-## ETL Workflow
+## How It Works
 
 ```text
-Weather Data (wttr.in)
-        |
-        v
-      curl
-        |
-        v
-Extract weather data
-        |
-        v
-Transform into tab-delimited records
-        |
-        v
-     rx_poc.log
-        |
-        v
-Calculate forecast accuracy
-        |
-        v
-historical_fc_accuracy.tsv
-        |
-        v
-Weekly statistics
+Target Directory
+       |
+       v
+Find files modified in last 24 hours
+       |
+       v
+Store files in an array
+       |
+       v
+Create compressed TAR archive
+       |
+       v
+backup-[TIMESTAMP].tar.gz
+       |
+       v
+Destination Directory
+
